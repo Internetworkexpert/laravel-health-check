@@ -1,19 +1,36 @@
+# Health Check Package
+
+| Field | Value |
+|---|---|
+| **Owner** | INE Engineering |
+| **Slack** | [#all-developers](https://slack.com/app_redirect?channel=GS8K9MV0V) · [#dev-team](https://slack.com/app_redirect?channel=C05UPTNP7EV) |
+| **Status** | Maintenance |
+| **Type** | PHP / Composer package |
+| **Last reviewed** | 2026-06-26 — @jkahgee |
+
 <img src="https://images.ukfast.co.uk/logos/ukfast/441x126_transparent_strapline.png" alt="UKFast Logo" width="350px" height="auto" />
 
 ![Tests](https://github.com/ukfast/laravel-health-check/workflows/Run%20tests/badge.svg?branch=master)
 
-# Health Check Package
+## Overview
 
 The purpose of this package is to surface a health-check endpoint on `/health` which, when hit, returns the status of all the services and dependencies your project relies on, along with the overall health of your system. This is useful in both development and production for debugging issues with a faulty application.
 
-This package also adds a `/ping` endpoint. Just hit `/ping` and receive `pong` in response. 
+This package also adds a `/ping` endpoint. Just hit `/ping` and receive `pong` in response.
 
+## Getting Started
 
-## Installation
+### Prerequisites
+
+- PHP `>=5.6` with the `ext-json` extension (per `composer.json`).
+- A Laravel or Lumen application using `illuminate/support`, `illuminate/http`, and `illuminate/console` (`^5.4` through `^10.0`).
+- [Composer](https://getcomposer.org/) for dependency management.
+
+### Installation
 
 To install the package:
 
-Run  `composer require ans-group/laravel-health-check` to add the package to your dependencies.
+Run `composer require ans-group/laravel-health-check` to add the package to your dependencies.
 
 This will automatically install the package to your vendor folder.
 
@@ -25,7 +42,7 @@ In Laravel applications, the service provider should be automatically registered
 'providers' => [
     // ...
     UKFast\HealthCheck\HealthCheckServiceProvider::class,
-];  
+];
 ```
 
 #### Lumen
@@ -38,11 +55,9 @@ $app->register(\UKFast\HealthCheck\HealthCheckServiceProvider::class);
 
 You can test that the package is working correctly by hitting the `/health` endpoint.
 
-
 ## Configuration
 
 ### Laravel
-
 
 ##### Facade
 
@@ -62,7 +77,6 @@ $numberOfChecks = HealthCheck::all()->count();
 
 If one of the checks provided cannot be resolved from the service container, we'll throw a `CheckNotFoundException` with the name of the missing check.
 
-
 ##### Config
 
 If you'd like to tweak the config file (helpful for configuring the `EnvHealthCheck`, for example), you can publish it with:
@@ -70,7 +84,6 @@ If you'd like to tweak the config file (helpful for configuring the `EnvHealthCh
 ```php
 php artisan vendor:publish --provider="UKFast\HealthCheck\HealthCheckServiceProvider" --tag="config"
 ```
-
 
 ##### Middleware
 
@@ -92,9 +105,7 @@ You can register custom middleware to run on requests to the `/health` endpoint.
 
 Now your `CustomMiddleware` middleware will be ran on every request to the `/health` endpoint.
 
-
 ### Lumen
-
 
 ##### Facade
 
@@ -113,7 +124,6 @@ $numberOfChecks = HealthCheck::all()->count();
 ```
 
 If one of the checks provided cannot be resolved from the service container, we'll throw a `CheckNotFoundException` with the name of the missing check.
-
 
 ##### Config
 
@@ -144,7 +154,7 @@ return [
      * A list of middleware to run on the health-check route
      * It's recommended that you have a middleware that only
      * allows admin consumers to see the endpoint.
-     * 
+     *
      * See UKFast\HealthCheck\BasicAuth for a one-size-fits all
      * solution
      */
@@ -233,7 +243,6 @@ Update your `bootstrap/app.php` file to override the default package config:
 $app->configure('healthcheck');
 ```
 
-
 ##### Middleware
 
 You can register custom middleware to run on requests to the `/health` endpoint. You can add this to the middleware array in the `config/healthcheck.php` config file you created using the config above, as shown in the example below:
@@ -256,8 +265,8 @@ Now your `CustomMiddleware` middleware will be ran on every request to the `/hea
 
 Out of the box, the health check package provides:
 
- * BasicAuth - Requires that basic auth credentials be sent in order to see full status
- * AddHeaders - Adds X-check-status headers to the response, so you can avoid having to parse JSON
+- BasicAuth - Requires that basic auth credentials be sent in order to see full status
+- AddHeaders - Adds X-check-status headers to the response, so you can avoid having to parse JSON
 
 ### Checks
 
@@ -345,21 +354,32 @@ use Exception;
 
 Finally, hit the `/health` endpoint, depending on if your app can actually hit Redis, you'll see the status of Redis. If it's still returning `OK` try changing `REDIS_HOST` to something that doesn't exist to trip the error.
 
+## Testing
+
+The package ships a PHPUnit suite under `tests/`. Install the dev dependencies and run it locally:
+
+```bash
+composer install
+vendor/bin/phpunit
+```
+
+Tests also run in CI via the `Run tests` GitHub Actions workflow
+(`.github/workflows/run-tests.yml`), which executes the PHPUnit suite across the
+supported PHP version matrix on every push and pull request, plus a daily
+schedule.
 
 ## Contributing
 
 We welcome contributions to this package that will be beneficial to the community.
 
-You can reach out to our open-source team via **open-source@ukfast.co.uk** who will get back to you as soon as possible.
+You can reach out to our open-source team via **<open-source@ukfast.co.uk>** who will get back to you as soon as possible.
 
 Please refer to our [CONTRIBUTING](CONTRIBUTING.md) file for more information.
 
-
 ## Security
 
-If you think you have identified a security vulnerability, please contact our team via **security@ukfast.co.uk** who will get back to you as soon as possible, rather than using the issue tracker.
-
+If you think you have identified a security vulnerability, please contact our team via **<security@ukfast.co.uk>** who will get back to you as soon as possible, rather than using the issue tracker.
 
 ## Licence
 
-This project is licenced under the MIT Licence (MIT). Please see the [Licence](LICENCE) file for more information.
+This project is licenced under the MIT Licence (MIT). Please see the [Licence](LICENSE) file for more information.
