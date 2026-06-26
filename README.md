@@ -382,4 +382,4 @@ If you think you have identified a security vulnerability, please contact our te
 
 ## Licence
 
-This project is licenced under the MIT Licence (MIT). Please see the [Licence](LICENSE) file for more information.
+This project is licensed under the MIT Licence (MIT). Please see the [Licence](LICENSE) file for more information.
